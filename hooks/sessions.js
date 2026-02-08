@@ -50,8 +50,8 @@ module.exports = {
     }
   },
 
-  async runFunctionHook(name, body, { context, isLoggedIn, FunctionError }) {
-    if (!isLoggedIn()) {
+  async runFunctionHook(name, body, { context, isLoggedIn, FunctionError }, func) {
+    if (func.requireAuth && !isLoggedIn()) {
       throw new FunctionError("authRequired");
     }
 
