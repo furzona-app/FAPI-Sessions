@@ -1,0 +1,5 @@
+{
+  "errors": {
+    "authRequired": "You don't have permission to run this function."
+  }
+}
