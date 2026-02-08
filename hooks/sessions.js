@@ -58,6 +58,14 @@ module.exports = {
     this.refreshUser(context);
   },
 
+  async runViewHook(route, { context, isLoggedIn, FunctionError }, view) {
+    if (view.backend?.requireAuth && !isLoggedIn()) {
+      throw new FunctionError("authRequired");
+    }
+
+    this.refreshUser(context);
+  },
+
   async runRefreshHook({ context }) {
     this.refreshUser(context);
   }
