@@ -34,18 +34,16 @@ module.exports = {
     context.thisUser = null;
 
     if (authHeader) {
-      const session = db.get(`
-        SELECT user_id FROM sessions WHERE token = ? LIMIT 1
-      `, authHeader);
+      const user = User.from(db.get(`
+        SELECT users.*
+        FROM users
+        INNER JOIN sessions ON users.id = sessions.user_id
+        WHERE sessions.token = ?
+        LIMIT 1
+      `, authHeader));
 
-      if (session != undefined) {
-        const user = User.from(db.get(`
-          SELECT * FROM users WHERE id = ? LIMIT 1
-        `, session.user_id));
-
-        if (user != undefined) {
-          context.thisUser = user;
-        }
+      if (user != undefined) {
+        context.thisUser = user;
       }
     }
   },
