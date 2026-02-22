@@ -39,9 +39,9 @@ module.exports = {
       `, authHeader);
 
       if (session != undefined) {
-        const user = db.get(`
-          SELECT ${User.ALL} FROM users WHERE id = ? LIMIT 1
-        `, session.user_id);
+        const user = User.from(db.get(`
+          SELECT * FROM users WHERE id = ? LIMIT 1
+        `, session.user_id));
 
         if (user != undefined) {
           context.thisUser = user;
